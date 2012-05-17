@@ -1,0 +1,4 @@
+***TODO***
+- Securitizar las inserciones en la DB (con mysql_real_escape_string y otros)
+- Orientar a objetos las sentencias de PHP (conexión a la DB y demás operaciones con MySQL)
+
