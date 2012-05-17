@@ -1,7 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//ES" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <?php
-include "ctrl_sesion.php";
-include "menu_perfil.php";
+include 'ctrl_sesion.php';
+include 'menu_perfil.php';
+include 'func_conn.php';
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="es" lang="es">
 <head>
@@ -29,8 +30,8 @@ include "menu_perfil.php";
 		<dd><input type="text" name="nombre"></dd>
 	</dl>
 	<dl>
-		<dt><label for="apellido" name="apellido">Apellido : </label></dt>
-		<dd><input type="text"></dd>
+		<dt><label for="apellido">Apellido : </label></dt>
+		<dd><input type="text" name="apellido"></dd>
 	</dl>
 	<dl>
 		<dt><label for="dni" name="dni">D. N. I. : </label></dt>
@@ -39,6 +40,30 @@ include "menu_perfil.php";
 	<dl>
 		<dt><label for="email">Email : </label></dt>
 		<dd><input type="text" name="email"></dd>
+	</dl>
+	<dl>
+		<dt><label for="password">Contraseña : </label></dt>
+		<dd><input type="password" name="password"></dd>
+	</dl>
+	<dl>
+		<dt><label for="verif">Repetir contraseña : </label></dt>
+		<dd><input type="password" name="verif"></dd>
+	</dl>
+	<dl>
+		<dt><label for="perfil">Repetir contraseña : </label></dt>
+		<dd>
+			<select name="perfil">
+			<?php
+				conectar();
+				$perfiles = mysql_query("SELECT * FROM perfil");
+				printf($perfiles);
+				while($fila = mysql_fetch_array($perfiles))
+				{
+					echo "<option value=\"" . $fila['perfil_id'] ."\"> " . $fila['descripcion'] . "</option>";
+				}
+			?>
+			</select>
+		</dd>
 	</dl>
 	<dl>
 		<dd>Los campos marcados con * son obligatorios</dd>

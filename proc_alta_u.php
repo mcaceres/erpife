@@ -1,7 +1,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//ES" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <?php
-include "ctrl_sesion.php";
-include "menu_perfil.php";
+include 'ctrl_sesion.php';
+include 'menu_perfil.php';
+include 'func_conn.php';
+$cant = 1;
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="es" lang="es">
 <head>
@@ -20,5 +22,20 @@ include "menu_perfil.php";
 <div id="content">
 <div id="right">
 <h2>Alta de usuario</h2>
+<?php
+extract($_POST);
+print_r($_POST);
+$buscar = array('á', 'é', 'í', 'ó', 'ú', 'ñ');
+$reemplazar = array('a', 'e', 'i', 'o', 'u', 'n');
+$nomyape = $nombre . " " . $apellido;
+$nombre = str_replace($buscar, $reemplazar, strtolower($nombre)); $apellido = str_replace($buscar, $reemplazar, strtolower($apellido));;
+$username =  substr($nombre, 0, $cant) . $apellido;
+echo $username;
+
+	conectar();
+	$res = mysql_query("INSERT INTO usuario (u_username, u_password, u_perfil, u_dni, u_email, u_nomyape) VALUES ('" . $username . "', '" . $password . "', '" . $perfil . "', '" . $dni . "', '" . $email . "', '" . $nomyape . "')");
+	echo mysql_error();
+?>
+
 <p>
 
