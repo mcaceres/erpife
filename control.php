@@ -10,7 +10,7 @@
 <?php
 include 'func_conn.php';
 conectar();
-print_r($_POST);
+//print_r($_POST);
 if(isset($_POST['enviar']))
 {
 	$user_pass = mysql_fetch_array(mysql_query("SELECT u_username, u_password, descripcion, u_nomyape FROM usuario, perfil WHERE usuario.u_username = '" . $_POST['username'] . "' AND usuario.u_perfil = perfil.perfil_id"));

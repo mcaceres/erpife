@@ -1,6 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//ES" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <?php
-include 'ctrl_sesion.php';
 include 'menu_perfil.php';
 include 'func_conn.php';
 ?>
@@ -22,7 +21,7 @@ include 'func_conn.php';
 <div id="right">
 <h2>Alta de usuario</h2><br />
 <p>
-<form name="alta_usuario" method="POST" action="proc_alta_u.php" class="niceform">
+<form name="alta_usuario" method="POST" action="proc_alta_auto.php" class="niceform">
 <fieldset>
 	<legend>Datos del usuario</legend>
 	<dl>
@@ -42,6 +41,10 @@ include 'func_conn.php';
 		<dd><input type="text" name="email"></dd>
 	</dl>
 	<dl>
+		<dt><label for="filiacion">Lugar de filiación académica *: </label></dt>
+		<dd><input type="text" name="filiacion"></dd>
+	</dl>
+	<dl>
 		<dt><label for="password">Contraseña *: </label></dt>
 		<dd><input type="password" name="password"></dd>
 	</dl>
@@ -53,14 +56,7 @@ include 'func_conn.php';
 		<dt><label for="perfil">Perfil : </label></dt>
 		<dd>
 			<select name="perfil">
-			<?php
-				conectar();
-				$perfiles = mysql_query("SELECT * FROM perfil");
-				while($fila = mysql_fetch_array($perfiles))
-				{
-					echo "<option value=\"" . $fila['perfil_id'] ."\"> " . ucfirst($fila['descripcion']) . "</option> \n";
-				}
-			?>
+				<option value="1"> Expositor</option>
 			</select>
 		</dd>
 	</dl>

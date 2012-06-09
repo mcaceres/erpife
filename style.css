@@ -65,7 +65,7 @@ label {font-size:11px; font-weight:bold; color:#666;}
 
 dl {clear:both;}
 dt {float:left; text-align:right; width:150px; line-height:25px; margin:0 10px 10px 0;}
-dd {float:left; width:380px; line-height:25px; margin:0 0 10px 0;}
+dd {float:left; width:680px; line-height:25px; margin:0 0 10px 0;}
 
 /*Text inputs*/
 .NFText {border:none; vertical-align:middle; font:12px/15px Arial, Helvetica, sans-serif; background:none;}

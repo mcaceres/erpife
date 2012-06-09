@@ -1,6 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//ES" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <?php
-include 'ctrl_sesion.php';
 include 'menu_perfil.php';
 include 'func_conn.php';
 $cant = 1;
@@ -51,7 +50,7 @@ if($nombre != null && $apellido != null && $dni != null && $email != null && $pa
 		$res = mysql_query("INSERT INTO usuario (u_username, u_password, u_perfil, u_dni, u_email, u_nomyape) VALUES ('" . mysql_real_escape_string($username) . "', '" . mysql_real_escape_string($password) . "', '" . mysql_real_escape_string($perfil) . "', '" . mysql_real_escape_string($dni) . "', '" . mysql_real_escape_string($email) . "', '" . mysql_real_escape_string($nomyape) . "')");
 		if(mysql_errno() == '1062')
 		{
-			echo "Ya existe un usuario con el nombre <b>" . $username . "</b>";
+			echo "Ya existe un usuario con el nombre " . $username;
 		}
 		else
 		{

@@ -1,16 +1,18 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//ES" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <?php
+session_start();
 //include "ctrl_sesion.php";
+include "func_conn.php";
 include "menu_perfil.php";
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="es" lang="es">
 <head>
-<title>Gestión de ponencias IAES</title>
+<title>Sistema de Gestión de Ponencias Virtual SiGePoV</title>
 <link rel="stylesheet" type="text/css" href="style.css" media="screen" />
 </head>
 <body>
 <div id="header">
-<h1>Gestión de ponencias ERPIFE</h1>
+<h1>Sistema de Gestión de Ponencias Virtual SiGePoV</h1>
 <?php
 	insertar($_SESSION['perfil']);
 ?>
@@ -28,13 +30,33 @@ include "menu_perfil.php";
 		{
 			echo "Bienvenido, identifíquese para poder acceder a las diferentes opciones.";
 		}
+if($_SESSION['perfil'] == 'expositor')
+{
+	echo '<form name="lista" method="POST" action="bm.php" class="niceform">';
+		conectar();
+		$lista = mysql_query("SELECT t_id, u_nomyape, a_descripcion, t_titulo FROM trabajo, usuario, area_tematica WHERE trabajo.t_ex_id = usuario.u_id AND area_tematica.a_id = trabajo.t_area_id AND usuario.u_username = '" . $_SESSION['usuario'] . "' ORDER BY t_id");
+		echo "<table>
+		<tr><center><th>ID Trabajo</th><th>Título</th><th>Área</th></center></tr>";
+		while($fila = mysql_fetch_array($lista))
+		{
+			echo "<tr>
+			<td> " . $fila['t_id'] . "</td>
+			<td> " . $fila['t_titulo'] . "</td>
+			<td> " . $fila['a_descripcion'] ."</td>
+			<td> " . ucfirst($fila['descripcion']) . "</td>
+			</tr>";
+		}
+		echo "</table>";
+	echo "</form>";
+
+}
 	?>
 </p>
 </div>
 	
 <div id="left">
 <?php
-
+//print_r($_SESSION);
 if(!isset($_SESSION['usuario']))
 {
 	insertar('login');
