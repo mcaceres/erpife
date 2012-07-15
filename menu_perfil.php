@@ -28,6 +28,7 @@ $menu_admin = '<div id="menu">
    <li><a href="altaUsuario.php">Alta de usuario</a></li>
    <li><a href="listaUsuario.php">Ver usuarios</a></li>
    <li><a href="abmEventos.php">Alta eventos</a></li>
+   <li><a href="asignarTrabajo.php">Asignar trabajos</a></li>
    <li><a href="perfil.php">Perfil</a></li>
    <li><a href="salir.php">Salir</a></li>
   </ul>

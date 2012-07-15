@@ -20,13 +20,13 @@ include 'func_conn.php';
 </div>
 <div id="content">
 <div id="right">
-<h2>Datos de perfil</h2><br />
+<h2>Datos de perfil</h2><br /><br />
 <?php
 	conectar();
-print_r($_SESSION);
+//print_r($_SESSION);
 
-	$fila_u = mysql_fetch_assoc(mysql_query("select u_id, u_username, u_password, u_dni, u_email, u_nomyape FROM usuario WHERE u_username = 'mcaceres'"));
-	print_r($fila_u);
+	$fila_u = mysql_fetch_assoc(mysql_query("SELECT u_filiacion, u_id, u_username, u_password, u_dni, u_email, u_nomyape FROM usuario WHERE u_username = '" . $_SESSION['usuario'] . "'"));
+//	print_r($fila_u);
 ?>
 <form name="mod_datos" method="POST" action="proc_mod_u.php" class="niceform">
 <fieldset>
@@ -44,11 +44,15 @@ print_r($_SESSION);
 		<dd><input type="text" name="email" value="<?php echo $fila_u['u_email']; ?>"></dd>
 	</dl>
 	<dl>
-		<dt><label for="password">Contraseña *: </label></dt>
+		<dt><label for="filiacion">Lugar de filiación académica *: </label></dt>
+		<dd><input type="text" name="filiacion" value="<?php echo $fila_u['u_filiacion']; ?>"></dd>
+	</dl>
+	<dl>
+		<dt><label for="password">Contraseña: </label></dt>
 		<dd><input type="password" name="password"></dd>
 	</dl>
 	<dl>
-		<dt><label for="verif">Repetir contraseña *: </label></dt>
+		<dt><label for="verif">Repetir contraseña: </label></dt>
 		<dd><input type="password" name="verif"></dd>
 	</dl>
 	<input type="hidden" name="u_id" value="<?php echo $fila_u['u_id']; ?>">

@@ -32,6 +32,15 @@ $nombre = str_replace($buscar, $reemplazar, strtolower($nombre));
 $apellido = str_replace($buscar, $reemplazar, strtolower($apellido));
 $espacio = ' ';
 $pos = stripos($apellido, $espacio);
+
+$str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
+$cad = "";
+for($i=0;$i<8;$i++)
+{
+	$cad .= substr($str,rand(0,62),1);
+}
+$pass_gen =  $cad;
+
 //echo $pos;
 if(isset($pos) && $pos != 0)
 {
@@ -44,11 +53,11 @@ else
 };
 //echo $username;
 	conectar();
-if($nombre != null && $apellido != null && $dni != null && $email != null && $password != null)
+if($nombre != null && $apellido != null && $dni != null && $email != null)
 {
 	if($password == $verif)
 	{
-		$res = mysql_query("INSERT INTO usuario (u_username, u_password, u_perfil, u_dni, u_email, u_nomyape) VALUES ('" . mysql_real_escape_string($username) . "', '" . mysql_real_escape_string($password) . "', '" . mysql_real_escape_string($perfil) . "', '" . mysql_real_escape_string($dni) . "', '" . mysql_real_escape_string($email) . "', '" . mysql_real_escape_string($nomyape) . "')");
+		$res = mysql_query("INSERT INTO usuario (u_username, u_password, u_perfil, u_dni, u_email, u_nomyape) VALUES ('" . mysql_real_escape_string($username) . "', '" . mysql_real_escape_string($pass_gen) . "', '" . mysql_real_escape_string($perfil) . "', '" . mysql_real_escape_string($dni) . "', '" . mysql_real_escape_string($email) . "', '" . mysql_real_escape_string($nomyape) . "')");
 		if(mysql_errno() == '1062')
 		{
 			echo "Ya existe un usuario con el nombre <b>" . $username . "</b>";

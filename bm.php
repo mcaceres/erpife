@@ -21,13 +21,13 @@ $cant = 1;
 </div>
 <div id="content">
 <div id="right">
-<h2>Modificación de datos de usuario</h2>
+<h2>Modificación de datos de usuario</h2><br />
 <?php
 extract($_POST);
 //print_r($_POST);
 	conectar();
 	echo "<pre>";
-	$datos = mysql_query("SELECT * FROM usuario WHERE u_id = '" . $modificar . "'");
+	$datos = mysql_query("SELECT u_id, u_username, u_perfil, u_email, u_nomyape, u_filiacion FROM usuario WHERE u_id = '" . $modificar . "'");
 	//print_r(mysql_fetch_array($datos));
 	$fila_u = mysql_fetch_array($datos);
 	echo "</pre>";
@@ -41,6 +41,10 @@ extract($_POST);
 		<dd><input type="text" name="nomyape" value="<?php echo $fila_u['u_nomyape']; ?>"></dd>
 	</dl>
 	<dl>
+		<dt><label for="nombre">Nombre de usuario *: </label></dt>
+		<dd><input type="text" name="username" value="<?php echo $fila_u['u_username']; ?>"></dd>
+	</dl>
+	<dl>
 		<dt><label for="dni" name="dni">D. N. I. *: </label></dt>
 		<dd><input type="text" name="dni" value="<?php echo $fila_u['u_dni']; ?>"></dd>
 	</dl>
@@ -50,11 +54,11 @@ extract($_POST);
 	</dl>
 	<dl>
 		<dt><label for="password">Contraseña *: </label></dt>
-		<dd><input type="password" name="password" value="<?php echo $fila_u['u_password']; ?>"></dd>
+		<dd><input type="password" name="password"></dd>
 	</dl>
 	<dl>
 		<dt><label for="verif">Repetir contraseña *: </label></dt>
-		<dd><input type="password" name="verif" value="<?php echo $fila_u['u_password']; ?>"></dd>
+		<dd><input type="password" name="verif"></dd>
 	</dl>
 	<dl>
 		<dt><label for="perfil">Perfil : </label></dt>
@@ -87,3 +91,26 @@ extract($_POST);
 </fieldset>
 </form>
 </p>
+</div>
+<div id="left">
+<?php
+//print_r($_SESSION);
+if(!isset($_SESSION['usuario']))
+{
+	insertar('login');
+}
+?>			
+	<div class="box">
+				<h2>Links :</h2>
+				<ul>
+				<li><a href="http://www.iaes.edu.ar">IAES Puerto Rico</a></li>
+				</ul>
+	</div>
+		
+    <div class="box">
+	   <div style="font-size: 0.8em;">Design by <a href="http://www.minimalistic-design.net">Minimalistic Design</a></div>
+	</div>
+</div>
+</div>
+</body>
+</html>

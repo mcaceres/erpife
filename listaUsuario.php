@@ -44,7 +44,6 @@ include 'func_conn.php';
 	?>
 </p>
 </div>
-	
 <div id="left">
 <?php
 //print_r($_SESSION);
@@ -67,4 +66,3 @@ if(!isset($_SESSION['usuario']))
 </div>
 </body>
 </html>
-

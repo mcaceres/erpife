@@ -42,6 +42,11 @@ include 'func_conn.php';
 		<dd><input type="text" name="email"></dd>
 	</dl>
 	<dl>
+		<dt><label for="filiacion">Lugar de filiación *: </label></dt>
+		<dd><input type="text" name="filiacion"></dd>
+	</dl>
+	<dl>
+<!--
 		<dt><label for="password">Contraseña *: </label></dt>
 		<dd><input type="password" name="password"></dd>
 	</dl>
@@ -49,6 +54,7 @@ include 'func_conn.php';
 		<dt><label for="verif">Repetir contraseña *: </label></dt>
 		<dd><input type="password" name="verif"></dd>
 	</dl>
+-->
 	<dl>
 		<dt><label for="perfil">Perfil : </label></dt>
 		<dd>

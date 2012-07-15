@@ -27,6 +27,14 @@ extract($_POST);
 	conectar();
 ?>
 </div>
+<div id="left">
+<?php
+//print_r($_SESSION);
+if(!isset($_SESSION['usuario']))
+{
+	insertar('login');
+}
+?>			
 	<div class="box">
 				<h2>Links :</h2>
 				<ul>
@@ -37,7 +45,8 @@ extract($_POST);
     <div class="box">
 	   <div style="font-size: 0.8em;">Design by <a href="http://www.minimalistic-design.net">Minimalistic Design</a></div>
 	</div>
-
+</div>
+</div>
 <p>
-
-
+</body>
+</html>

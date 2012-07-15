@@ -20,13 +20,44 @@ include 'func_conn.php';
 </div>
 <div id="content">
 <div id="right">
-<h2>Título</h2>
+<h2>Asignación de trabajos</h2><br /><br />
 <?php
 extract($_POST);
 //print_r($_POST);
 	conectar();
 ?>
+<form name="asignar_trabajo" method="POST" action="proc_asignacion_t.php" class="niceform">
+<fieldset>
+	<legend>Asignación de trabajos a evaluadores</legend>
+	<dl>
+		<dt><label for="perfil">Perfil : </label></dt>
+		<dd>
+			<select name="perfil">
+			<?php
+				conectar();
+				$perfiles = mysql_query("SELECT t_id, t_ex_id, t_titulo, t_area_id, a_descripcion FROM trabajo, area_tematica WHERE trabajo.t_area_id = area_tematica.a_id");
+				while($fila = mysql_fetch_array($perfiles))
+				{
+					echo "<option value=\"" . $fila['t_id'] ."\"> " . ucfirst($fila['t_titulo']) . " - " . ucfirst($fila['a_descripcion']) . "</option> \n";
+				}
+			?>
+			</select>
+		</dd>
+	</dl>
+
+</fieldset>
+</form>
 </div>
+
+
+<div id="left">
+<?php
+
+if(!isset($_SESSION['usuario']))
+{
+	insertar('login');
+}
+?>			
 	<div class="box">
 				<h2>Links :</h2>
 				<ul>
@@ -37,7 +68,7 @@ extract($_POST);
     <div class="box">
 	   <div style="font-size: 0.8em;">Design by <a href="http://www.minimalistic-design.net">Minimalistic Design</a></div>
 	</div>
-
-<p>
-
-
+</div>
+</div>
+</body>
+</html>

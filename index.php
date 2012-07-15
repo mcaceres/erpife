@@ -4,11 +4,17 @@ session_start();
 //include "ctrl_sesion.php";
 include "func_conn.php";
 include "menu_perfil.php";
+
+	conectar();
+	$res = mysql_query("ALTER TABLE `ponencias`.`usuario` ADD COLUMN `u_filiacion` VARCHAR(350)  NOT NULL AFTER `u_nomyape`");
+	echo $res;
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="es" lang="es">
 <head>
 <title>Sistema de Gestión de Ponencias Virtual SiGePoV</title>
 <link rel="stylesheet" type="text/css" href="style.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="niceforms-default.css" media="forms" />
+<script language="javascript" type="text/javascript" src="niceforms.js"></script>
 </head>
 <body>
 <div id="header">
@@ -30,27 +36,34 @@ include "menu_perfil.php";
 		{
 			echo "Bienvenido, identifíquese para poder acceder a las diferentes opciones.";
 		}
-if($_SESSION['perfil'] == 'expositor')
-{
-	echo '<form name="lista" method="POST" action="bm.php" class="niceform">';
+	?>
+
+<form name="lista" method="POST" action="modificarTrabajos.php" class="niceform">
+<?php
+	if($_SESSION['perfil'] == 'expositor')
+	{
+		echo '<form name="lista" method="POST" action="bm.php" class="niceform">';
 		conectar();
-		$lista = mysql_query("SELECT t_id, u_nomyape, a_descripcion, t_titulo FROM trabajo, usuario, area_tematica WHERE trabajo.t_ex_id = usuario.u_id AND area_tematica.a_id = trabajo.t_area_id AND usuario.u_username = '" . $_SESSION['usuario'] . "' ORDER BY t_id");
+		$lista = mysql_query("SELECT t_id, u_nomyape, a_descripcion, t_titulo, e_id FROM estado, trabajo, usuario, area_tematica WHERE trabajo.t_ex_id = usuario.u_id AND area_tematica.a_id = trabajo.t_area_id AND usuario.u_username = '" . $_SESSION['usuario'] . "'  AND estado.e_id = t_estado ORDER BY t_id");
 		echo "<table>
-		<tr><center><th>ID Trabajo</th><th>Título</th><th>Área</th></center></tr>";
+		<tr><center><th>ID Trabajo</th><th>Título</th><th>Área</th><th>Modificar</th></center></tr>";
 		while($fila = mysql_fetch_array($lista))
 		{
 			echo "<tr>
 			<td> " . $fila['t_id'] . "</td>
 			<td> " . $fila['t_titulo'] . "</td>
-			<td> " . $fila['a_descripcion'] ."</td>
-			<td> " . ucfirst($fila['descripcion']) . "</td>
-			</tr>";
+			<td> " . $fila['a_descripcion'] ."</td>";
+			if($fila['e_id'] == 1 OR $fila['e_id'] == 5)
+			{
+				echo "<td><input type=\"submit\" name=\"modificar\" value=\"" . $fila['t_id'] . "\"> </td>";
+			}
+			"</tr>";
 		}
 		echo "</table>";
-	echo "</form>";
-
-}
+	}
 	?>
+</form>
+
 </p>
 </div>
 	

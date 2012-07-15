@@ -20,10 +20,10 @@ include 'func_conn.php';
 </div>
 <div id="content">
 <div id="right">
-<h2>Alta de usuario</h2>
+<h2>Alta de usuario</h2><br />
 <?php
 extract($_POST);
-print_r($_POST);
+//print_r($_POST);
 	conectar();
 	if(isset($eliminar))
 	{
@@ -45,24 +45,67 @@ print_r($_POST);
 	{
 		if(isset($guardar))
 		{
-			$query = "UPDATE usuario SET u_dni = '" . mysql_real_escape_string($dni) . "', u_nomyape = '" . mysql_real_escape_string($nomyape) . "', u_password = '" . mysql_real_escape_string($password) . "', u_email = '" . mysql_real_escape_string($email) . "' WHERE u_id = '" . mysql_real_escape_string($u_id) . "'";
-			$res = mysql_query($query);
-			if(!mysql_errno())
+			if($password == $verif && $password != null)
 			{
-				echo "Datos actualizados correctamente";
+				$query = "UPDATE usuario SET u_username = '" . $username . "', 'u_dni = '" . mysql_real_escape_string($dni) . "', u_nomyape = '" . mysql_real_escape_string($nomyape) . "', u_password = '" . mysql_real_escape_string($password) . "', u_email = '" . mysql_real_escape_string($email) . "', u_filiacion = '" . mysql_real_escape_string($filiacion) . "', u_perfil = '" . $perfil . "' WHERE u_id = '" . mysql_real_escape_string($u_id) . "'";
+				$res = mysql_query($query);
+				if(!mysql_errno())
+				{
+					echo "Datos actualizados correctamente";
+					echo '<meta http-equiv="Refresh" content="3;url=index.php">';
+					//header("location:index.php");
+				}
+				else
+				{
+					echo "Hubo un error " . mysql_errno() . "<br /> " . mysql_error() . "Primer if";
+				}
 			}
 			else
 			{
-				echo "Hubo un error " . mysql_errno() . "<br /> " . mysql_error();
+				if($password == null)
+				{
+					if(isset($perfil))
+					{
+						$query = "UPDATE usuario SET u_username = '" . $username . "', u_dni = '" . mysql_real_escape_string($dni) . "', u_nomyape = '" . mysql_real_escape_string($nomyape) . "', u_email = '" . mysql_real_escape_string($email) . "', u_filiacion = '" . mysql_real_escape_string($filiacion) . "', u_perfil = '" . $perfil . "' WHERE u_id = '" . mysql_real_escape_string($u_id) . "'";
+						$res = mysql_query($query);
+						if(!mysql_errno())
+						{
+							echo "Datos actualizados correctamente";
+							echo '<meta http-equiv="Refresh" content="3;url=' . $_SERVER['HTTP_REFERER'] . '">';
+							//header("location:index.php");
+						}
+						else
+						{
+							echo "Hubo un error " . mysql_errno() . "<br /> " . mysql_error() . "Segundo if";
+						}
+					}
+					else
+					{
+						$query = "UPDATE usuario SET u_dni = '" . mysql_real_escape_string($dni) . "', u_nomyape = '" . mysql_real_escape_string($nomyape) . "', u_email = '" . mysql_real_escape_string($email) . "', u_filiacion = '" . mysql_real_escape_string($filiacion) . "' WHERE u_id = '" . mysql_real_escape_string($u_id) . "'";
+						$res = mysql_query($query);
+						if(!mysql_errno())
+						{
+							echo "Datos actualizados correctamente";
+							echo '<meta http-equiv="Refresh" content="3;url=' . $_SERVER['HTTP_REFERER'] . '">';
+							//header("location:index.php");
+						}
+						else
+						{
+							echo "Hubo un error " . mysql_errno() . "<br /> " . mysql_error() . " 3er";
+						}
+					}
+				}
+				else
+				{
+					echo "Las contraseñas no coinciden... ";
+				}
 			}
 		}
 		else
 		{
-			echo "Error...";
+			
 		}
 	}
 ?>
 
 <p>
-
-
