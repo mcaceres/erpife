@@ -20,32 +20,25 @@ include 'func_conn.php';
 </div>
 <div id="content">
 <div id="right">
-<h2>Título</h2>
+<h2>Modificación de trabajos</h2>
 <?php
 extract($_POST);
 //print_r($_POST);
 	conectar();
+	if(isset($enviar))
+	{
+		$res = mysql_query("UPDATE area_tematica SET a_descripcion = '" . $descripcion . "' WHERE a_id = '" . $a_id . "'");
+		if(!mysql_errno())
+		{
+			echo "Datos actualizados correctamente";
+		}
+		else
+		{
+			echo "Hubo un error " . mysql_errno();
+		}
+	}
 ?>
-</div>
-<div id="left">
-<?php
-//print_r($_SESSION);
-if(!isset($_SESSION['usuario']))
-{
-	insertar('login');
-}
-?>			
-	<div class="box">
-				<h2>Links :</h2>
-				<ul>
-				<li><a href="http://www.iaes.edu.ar">IAES Puerto Rico</a></li>
-				</ul>
-	</div>
-		
-    <div class="box">
-	   <div style="font-size: 0.8em;">Design by <a href="http://www.minimalistic-design.net">Minimalistic Design</a></div>
-	</div>
-</div>
-</div>
-</body>
-</html>
+
+<p>
+
+

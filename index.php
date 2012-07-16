@@ -38,7 +38,7 @@ include "menu_perfil.php";
 		}
 	?>
 
-<form name="lista" method="POST" action="modificarTrabajos.php" class="niceform">
+<form name="lista" method="POST" action="modificarTrabajo.php" class="niceform">
 <?php
 	if($_SESSION['perfil'] == 'expositor')
 	{
@@ -56,6 +56,11 @@ include "menu_perfil.php";
 			if($fila['e_id'] == 1 OR $fila['e_id'] == 5)
 			{
 				echo "<td><input type=\"submit\" name=\"modificar\" value=\"" . $fila['t_id'] . "\"> </td>";
+			}
+			else
+			{
+				$desc_estado = mysql_fetch_array(mysql_query("SELECT e_descripcion FROM estado, trabajo WHERE estado.e_id = trabajo.t_estado AND trabajo.t_id = '" . $fila['t_id'] . "'"));
+				echo "<td> " . $desc_estado['e_descripcion'] . "</td>";
 			}
 			"</tr>";
 		}
