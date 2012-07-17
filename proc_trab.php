@@ -32,7 +32,7 @@ echo "<br/>";
 	
 	if($expositor != null && $titulo != null && $trabajo != null && $keywords != null)
 	{
-		$res = mysql_query("INSERT INTO trabajo (t_ex_id, t_titulo, t_area_id, t_keywords, t_resumen) VALUES ('" . $_SESSION['u_id'] . "', '" . $titulo . "', '" . $area . "', '" . $keywords . "', '" . $trabajo . "')");
+		$res = mysql_query("INSERT INTO trabajo (t_ex_id, t_titulo, t_area_id, t_keywords, t_resumen, t_estado) VALUES ('" . $_SESSION['u_id'] . "', '" . $titulo . "', '" . $area . "', '" . $keywords . "', '" . $trabajo . "', '1')");
 		if(mysql_error())
 		{
 			echo mysql_error() . mysql_errno();

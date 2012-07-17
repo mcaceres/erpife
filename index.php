@@ -6,8 +6,6 @@ include "func_conn.php";
 include "menu_perfil.php";
 
 	conectar();
-	$res = mysql_query("ALTER TABLE `ponencias`.`usuario` ADD COLUMN `u_filiacion` VARCHAR(350)  NOT NULL AFTER `u_nomyape`");
-	echo $res;
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="es" lang="es">
 <head>

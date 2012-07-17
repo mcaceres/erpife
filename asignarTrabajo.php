@@ -26,16 +26,53 @@ extract($_POST);
 //print_r($_POST);
 	conectar();
 ?>
-<form name="asignar_trabajo" method="POST" action="proc_asignacion_t.php" class="niceform">
+<form name="asignar_trabajo" method="POST" action="proc_asignacion_t.php"> <!-- class="niceform" -->
 <fieldset>
 	<legend>Asignación de trabajos a evaluadores</legend>
 	<dl>
-		<dt><label for="perfil">Perfil : </label></dt>
+	<dt><label for="trabajos">Trabajos sin asignar</label></dt>
+	<dd>
+<?php
+	$trabajos = mysql_query("SELECT t_id, t_titulo, t_area_id FROM trabajo, area_tematica WHERE trabajo.t_area_id = area_tematica.a_id AND trabajo.t_asignado = 0");
+//	print_r($trabajos);
+//	print_r($evaluadores);
+	while($fila = mysql_fetch_array($trabajos))
+	{
+		echo "<input type=\"radio\" name=\"trabajos\" value=\"" . $fila['t_id'] . "\"> " . $fila['t_titulo'] . " <br />";
+	}
+?>	
+	</dd>
+	</dl>
+	<dl>
+	<dt><label for="evaluadores">Evaluadores</label></dt>
+	<dd>
+<?php
+	$evaluadores = mysql_query("SELECT u_id, u_nomyape FROM usuario WHERE usuario.u_perfil = '2'");
+//	print_r($trabajos);
+//	print_r($evaluadores);
+	while($fila = mysql_fetch_array($evaluadores))
+	{
+		echo "<input type=\"radio\" name=\"evaluadores\" value=\"" . $fila['u_id'] . "\"> " . $fila['u_nomyape'] . " <br />";
+	}
+?>	
+	</dd>
+	</dl>
+	<input type="submit" name="modificar" value="Asignar">
+</fieldset>
+</form>
+</div>
+
+
+<div id="left">
+<?php
+/* Porción de código para hacer un select con los trábajos...
+	<dl>
+		<dt><label for="perfil">Trabajo : </label></dt>
 		<dd>
 			<select name="perfil">
 			<?php
 				conectar();
-				$perfiles = mysql_query("SELECT t_id, t_ex_id, t_titulo, t_area_id, a_descripcion FROM trabajo, area_tematica WHERE trabajo.t_area_id = area_tematica.a_id");
+				$perfiles = mysql_query("SELECT t_id, t_titulo, t_area_id FROM trabajo, area_tematica WHERE trabajo.t_area_id = area_tematica.a_id AND trabajo.t_asignado = 0");
 				while($fila = mysql_fetch_array($perfiles))
 				{
 					echo "<option value=\"" . $fila['t_id'] ."\"> " . ucfirst($fila['t_titulo']) . " - " . ucfirst($fila['a_descripcion']) . "</option> \n";
@@ -44,15 +81,7 @@ extract($_POST);
 			</select>
 		</dd>
 	</dl>
-
-</fieldset>
-</form>
-</div>
-
-
-<div id="left">
-<?php
-
+*/
 if(!isset($_SESSION['usuario']))
 {
 	insertar('login');
@@ -72,3 +101,4 @@ if(!isset($_SESSION['usuario']))
 </div>
 </body>
 </html>
+

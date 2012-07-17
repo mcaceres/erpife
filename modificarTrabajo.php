@@ -29,7 +29,7 @@ extract($_POST);
 	conectar();
 	$id_usuario = mysql_fetch_array(mysql_query("SELECT u_id, u_nomyape FROM usuario WHERE u_username = '" . $_SESSION['usuario'] . "'"));
 	$_SESSION['u_id'] = $id_usuario['u_id'];
-	$trabajo = mysql_fetch_array(mysql_query("SELECT t_titulo, t_area_id, t_keywords, t_resumen FROM trabajo WHERE t_id = '" . $_POST['modificar'] . "'"));
+	$trabajo = mysql_fetch_array(mysql_query("SELECT t_id, t_titulo, t_area_id, t_keywords, t_resumen FROM trabajo WHERE t_id = '" . $_POST['modificar'] . "'"));
 //	print_r($trabajo);
 ?>
 </pre>
@@ -74,6 +74,7 @@ extract($_POST);
 			</select>
 		</dd>
 	</dl>
+	<input type="hidden" name="t_id" value="<?php echo $trabajo['t_id']; ?>">	
 	<dl>
 		<dt></dt>
 		<dd><i>Todos los campos son obligatorios </i><br />

@@ -21,24 +21,24 @@ include 'func_conn.php';
 <div id="content">
 <div id="right">
 <h2>Modificación de trabajos</h2>
+<p>
 <?php
 extract($_POST);
 //print_r($_POST);
+//print_r($_SESSION);
 	conectar();
 	if(isset($enviar))
 	{
-		$res = mysql_query("UPDATE area_tematica SET a_descripcion = '" . $descripcion . "' WHERE a_id = '" . $a_id . "'");
+		$res = mysql_query("UPDATE trabajo SET t_titulo = '" . $titulo . "', t_area_id = '" . $area . "', t_keywords = '" . $keywords . "', t_resumen = '" . $trabajo ."' WHERE t_id = '" . $t_id . "'");
 		if(!mysql_errno())
 		{
-			echo "Datos actualizados correctamente";
+			echo "Trabajo actualizado correctamente.";
+			echo '<meta http-equiv="Refresh" content="3;url=index.php">';
 		}
 		else
 		{
-			echo "Hubo un error " . mysql_errno();
+			echo "Hubo un error " . mysql_errno() . mysql_error();
 		}
 	}
 ?>
-
-<p>
-
-
+</p>
