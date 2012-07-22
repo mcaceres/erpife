@@ -13,7 +13,8 @@ conectar();
 //print_r($_POST);
 if(isset($_POST['enviar']))
 {
-	$user_pass = mysql_fetch_array(mysql_query("SELECT u_username, u_password, descripcion, u_nomyape FROM usuario, perfil WHERE usuario.u_username = '" . $_POST['username'] . "' AND usuario.u_perfil = perfil.perfil_id"));
+	$user_pass = mysql_fetch_array(mysql_query("SELECT u_id, u_username, u_password, descripcion, u_nomyape FROM usuario, perfil WHERE usuario.u_username = '" . $_POST['username'] . "' AND usuario.u_perfil = perfil.perfil_id"));
+	print_r($user_pass);
 	if($user_pass == "")
 	{
 		echo "El usuario no existe";
@@ -23,7 +24,7 @@ if(isset($_POST['enviar']))
 		if($user_pass['u_password'] == $_POST['password'])
 		{
 			session_start();
-			$_SESSION['usuario'] = $_POST['username']; $_SESSION['perfil'] = $user_pass['descripcion']; $_SESSION['nomyape'] = $user_pass['u_nomyape'];
+			$_SESSION['usuario'] = $_POST['username']; $_SESSION['perfil'] = $user_pass['descripcion']; $_SESSION['nomyape'] = $user_pass['u_nomyape']; $_SESSION['u_id'] = $user_pass['u_id'];
 			header("location:index.php");
 		}
 		else

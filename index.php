@@ -16,7 +16,8 @@ include "menu_perfil.php";
 </head>
 <body>
 <div id="header">
-<h1>Sistema de Gestión de Ponencias Virtual SiGePoV</h1>
+<h1><?php echo $_SESSION['evento']; ?> - SiGePoV</h1>
+
 <?php
 	insertar($_SESSION['perfil']);
 ?>
@@ -42,9 +43,9 @@ include "menu_perfil.php";
 	{
 		echo '<form name="lista" method="POST" action="bm.php" class="niceform">';
 		conectar();
-		$lista = mysql_query("SELECT t_id, u_nomyape, a_descripcion, t_titulo, e_id FROM estado, trabajo, usuario, area_tematica WHERE trabajo.t_ex_id = usuario.u_id AND area_tematica.a_id = trabajo.t_area_id AND usuario.u_username = '" . $_SESSION['usuario'] . "'  AND estado.e_id = t_estado ORDER BY t_id");
+		$lista = mysql_query("SELECT t_id, u_nomyape, a_descripcion, t_titulo, e_id, e_descripcion FROM estado, trabajo, usuario, area_tematica WHERE trabajo.t_ex_id = usuario.u_id AND area_tematica.a_id = trabajo.t_area_id AND usuario.u_username = '" . $_SESSION['usuario'] . "'  AND estado.e_id = t_estado ORDER BY t_id");
 		echo "<table>
-		<tr><center><th>ID Trabajo</th><th>Título</th><th>Área</th><th>Modificar</th></center></tr>";
+		<tr><center><th>ID Trabajo</th><th>Título</th><th>Área</th><th>Modificar</th><th>Estado</th></center></tr>";
 		while($fila = mysql_fetch_array($lista))
 		{
 			echo "<tr>
@@ -53,12 +54,11 @@ include "menu_perfil.php";
 			<td> " . $fila['a_descripcion'] ."</td>";
 			if($fila['e_id'] == 1 OR $fila['e_id'] == 5)
 			{
-				echo "<td><input type=\"submit\" name=\"modificar\" value=\"" . $fila['t_id'] . "\"> </td>";
+				echo "<td><input type=\"submit\" name=\"modificar\" value=\"" . $fila['t_id'] . "\"><td> " . $fila['e_descripcion'] . " </td></td>";
 			}
 			else
 			{
-				$desc_estado = mysql_fetch_array(mysql_query("SELECT e_descripcion FROM estado, trabajo WHERE estado.e_id = trabajo.t_estado AND trabajo.t_id = '" . $fila['t_id'] . "'"));
-				echo "<td> " . $desc_estado['e_descripcion'] . "</td>";
+				echo "<td> " . $fila['e_descripcion'] . "</td>";
 			}
 			"</tr>";
 		}

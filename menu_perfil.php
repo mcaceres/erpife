@@ -30,6 +30,7 @@ $menu_admin = '<div id="menu">
    <li><a href="abmEventos.php">Alta eventos</a></li>
    <li><a href="asignarTrabajo.php">Asignar trabajos</a></li>
    <li><a href="perfil.php">Perfil</a></li>
+   <li><a href="verTrabajos.php">Ver trabajos</a></li>
    <li><a href="salir.php">Salir</a></li>
   </ul>
  </div>';

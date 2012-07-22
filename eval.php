@@ -13,28 +13,28 @@ include 'func_conn.php';
 </head>
 <body>
 <div id="header">
-<h1><?php echo $_SESSION['evento']; ?></h1>
+<h1>Sistema de Gestión de Ponencias Virtual SiGePoV</h1>
 <?php
 	insertar($_SESSION['perfil']);
 ?>
 </div>
 <div id="content">
 <div id="right">
-<h2>Trabajos asignados</h2>
+<h2>Correción de trabajos</h2>
+<br />
 <?php
 extract($_POST);
-//print_r($_POST);
-//print_r($_SESSION);
+print_r($_POST);
 	conectar();
+
 ?>
-<br />
 <p>
-	<form name="corregir" method="POST" action="eval.php" class="niceform">
+	<form name="corregir" method="POST" action="correccion.php" class="niceform">
 	<fieldset>
-	<legend>Trabajos asignados</legend>
+	<legend>Trabajo <?php echo abs($_POST['numero']); ?></legend>
 	<?php
 		conectar();
-		$lista = mysql_query("SELECT t_id, t_keywords, t_area_id, t_resumen, a_descripcion FROM asignaciones INNER JOIN (trabajo INNER JOIN area_tematica ON trabajo.t_area_id = area_tematica.a_id) ON trabajo.t_id = asignaciones.as_id_trabajo AND asignaciones.as_id_evaluador = '" . $_SESSION['u_id'] . "'");
+		$lista = mysql_query("SELECT t_id, t_keywords, t_area_id, t_resumen, a_descripcion FROM asignaciones INNER JOIN (trabajo INNER JOIN area_tematica ON trabajo.t_area_id = area_tematica.a_id) ON trabajo.t_id = asignaciones.as_id_trabajo AND asignaciones.as_id_trabajo = '" . $_POST['numero'] . "'");
 		while($fila = mysql_fetch_array($lista))
 		{
 			echo "
@@ -50,10 +50,25 @@ extract($_POST);
 				<dt><label for=\"descripcion\">Área temática: </label></dt>
 				<dd><input type=\"text\" name=\"descripcion\" size=\"40\" value=\"" . $fila['a_descripcion'] . "\" READONLY></dd>
 			</dl>
-<!--			<dl>
+			<dl>
 				<dt><label for=\"trabajo\">Resumen: </label></dt>
 				<dd><textarea rows=\"30\" cols=\"80\" READONLY>" . $fila['t_resumen'] . "</textarea></dd>
-			</dl>-->
+			</dl>
+			<dl>
+				<dt><label for=\"correccion\">Corrección: </label></dt>
+				<dd><textarea rows=\"10\" cols=\"80\"></textarea></dd>
+			</dl>
+			<dl>
+				<dt><label for=\"estado\">Estado: </label></dt>
+				<dd> 
+					<select name=\"estado\">";
+				$perfiles = mysql_query("SELECT e_id, e_descripcion FROM estado WHERE estado.e_id > '4'");
+				while($fila = mysql_fetch_array($perfiles))
+				{
+					echo "<option value=\"" . $fila['e_id'] ."\"> " . ucfirst($fila['e_descripcion']) . "</option> \n";
+				}
+			echo "</select>
+			</dl>
 			<dl>
 				<dt><label for=\"enviar\"></label></dt>
 				<dd><input type=\"submit\" name=\"evaluar\" value=\" Corregir trabajo " . abs($fila['t_id']) . "\"></dd>
@@ -63,7 +78,6 @@ extract($_POST);
 	</fieldset>
 	</form>
 </p>
-
 
 </div>
 <div id="left">
@@ -86,6 +100,5 @@ if(!isset($_SESSION['usuario']))
 	</div>
 </div>
 </div>
-<p>
 </body>
 </html>

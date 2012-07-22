@@ -33,12 +33,12 @@ extract($_POST);
 	<dt><label for="trabajos">Trabajos sin asignar</label></dt>
 	<dd>
 <?php
-	$trabajos = mysql_query("SELECT t_id, t_titulo, t_area_id FROM trabajo, area_tematica WHERE trabajo.t_area_id = area_tematica.a_id AND trabajo.t_asignado = 0");
+	$trabajos = mysql_query("SELECT t_id, t_titulo, t_area_id FROM trabajo, area_tematica WHERE trabajo.t_area_id = area_tematica.a_id AND trabajo.t_asignado = '0' ORDER BY t_area_id");
 //	print_r($trabajos);
 //	print_r($evaluadores);
 	while($fila = mysql_fetch_array($trabajos))
 	{
-		echo "<input type=\"radio\" name=\"trabajos\" value=\"" . $fila['t_id'] . "\"> " . $fila['t_titulo'] . " <br />";
+		echo "<input type=\"checkbox\" name=\"trabajo" . $fila['t_id'] . "\" value=\"" . $fila['t_id'] . "\"> " . $fila['t_titulo'] . " <b>[" . abs($fila['t_area_id']) . "] </b><br />";
 	}
 ?>	
 	</dd>
@@ -52,7 +52,9 @@ extract($_POST);
 //	print_r($evaluadores);
 	while($fila = mysql_fetch_array($evaluadores))
 	{
-		echo "<input type=\"radio\" name=\"evaluadores\" value=\"" . $fila['u_id'] . "\"> " . $fila['u_nomyape'] . " <br />";
+		echo "<input type=\"radio\" name=\"evaluador\" value=\"" . $fila['u_id'] . "\"> " . $fila['u_nomyape'];
+		$asignados = mysql_query("SELECT as_id FROM asignaciones WHERE asignaciones.as_id_evaluador = '" . $fila['u_id'] . "'");
+		$cant = mysql_num_rows($asignados); echo " <b>(" . $cant . ") </b><br />";
 	}
 ?>	
 	</dd>

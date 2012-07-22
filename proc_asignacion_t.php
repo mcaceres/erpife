@@ -21,34 +21,31 @@ include 'func_conn.php';
 </div>
 <div id="content">
 <div id="right">
-<h2>Alta de trabajos</h2>
+<h2>Asignación de trabajos</h2>
+<br />
 <?php
 extract($_POST);
 //print_r($_POST);
 echo "<br/>";
 //print_r($_SESSION);
 	conectar();
-	
-	if($expositor != null && $titulo != null && $trabajo != null && $keywords != null)
+	foreach($_POST as $variable => $valor)
 	{
-		$res = mysql_query("INSERT INTO trabajo (t_ex_id, t_titulo, t_area_id, t_keywords, t_resumen, t_estado) VALUES ('" . $_SESSION['u_id'] . "', '" . $titulo . "', '" . $area . "', '" . $keywords . "', '" . $trabajo . "', '1')");
-		if(mysql_error())
+		if($valor != 'Asignar' && $variable != 'evaluador')
 		{
-			echo mysql_error() . mysql_errno();
+			$query = "INSERT INTO asignaciones (as_id_trabajo, as_id_evaluador) VALUES ('" . $valor . "', '" . $evaluador . "')";
+			//echo $query . "<br />";
+			$insert = mysql_query($query);
+			echo "<br />" . mysql_error() . "<br />";
+			$query2 = "UPDATE trabajo SET t_estado = '3', t_asignado = '1' WHERE trabajo.t_id = '" . $valor . "'";
+			//echo $query2;
+			$insert = mysql_query($query2);
+			echo "Trabajo asignado correctamente";
+			echo '<meta http-equiv="Refresh" content="3;url=index.php">';
 		}
-		else
-		{
-			echo "Trabajo dado de alta correctamente...";
-		}
-		//					INSERT INTO trabajo (t_ex_id, t_titulo, t_area_id, t_keywords, t_resumen) VALUES ('9', 'Titulo de prueba', '1', 'prueba, trabajo', 'Resumen del trabajo...')
-	}
-	else
-	{
-		echo "Debe rellenar todos los campos...";
 	}
 	
 ?>
-
 <p>
 
 
