@@ -13,7 +13,7 @@ include 'func_conn.php';
 </head>
 <body>
 <div id="header">
-<h1>Sistema de Gestión de Ponencias Virtual SiGePoV</h1>
+<h1><?php echo $_SESSION['evento']; ?> - SiGePoV</h1>
 <?php
 	insertar($_SESSION['perfil']);
 ?>
@@ -24,17 +24,17 @@ include 'func_conn.php';
 <br />
 <?php
 extract($_POST);
-print_r($_POST);
+//print_r($_POST);
 	conectar();
 
 ?>
 <p>
 	<form name="corregir" method="POST" action="correccion.php" class="niceform">
 	<fieldset>
-	<legend>Trabajo <?php echo abs($_POST['numero']); ?></legend>
+	<legend>Trabajo <?php echo abs($_POST['trabajo']); ?></legend>
 	<?php
 		conectar();
-		$lista = mysql_query("SELECT t_id, t_keywords, t_area_id, t_resumen, a_descripcion FROM asignaciones INNER JOIN (trabajo INNER JOIN area_tematica ON trabajo.t_area_id = area_tematica.a_id) ON trabajo.t_id = asignaciones.as_id_trabajo AND asignaciones.as_id_trabajo = '" . $_POST['numero'] . "'");
+		$lista = mysql_query("SELECT t_id, t_keywords, t_area_id, t_resumen, a_descripcion FROM asignaciones INNER JOIN (trabajo INNER JOIN area_tematica ON trabajo.t_area_id = area_tematica.a_id) ON trabajo.t_id = asignaciones.as_id_trabajo AND asignaciones.as_id_trabajo = '" . $_POST['trabajo'] . "'");
 		while($fila = mysql_fetch_array($lista))
 		{
 			echo "
@@ -55,8 +55,12 @@ print_r($_POST);
 				<dd><textarea rows=\"30\" cols=\"80\" READONLY>" . $fila['t_resumen'] . "</textarea></dd>
 			</dl>
 			<dl>
+				<dt><label for=\"palabras\">Cantidad de palabras: </label></dt>
+				<dd>" . str_word_count($fila['t_resumen']) . "</dd>
+			</dl>
+			<dl>
 				<dt><label for=\"correccion\">Corrección: </label></dt>
-				<dd><textarea rows=\"10\" cols=\"80\"></textarea></dd>
+				<dd><textarea rows=\"10\" cols=\"80\" name=\"correccion\"></textarea></dd>
 			</dl>
 			<dl>
 				<dt><label for=\"estado\">Estado: </label></dt>
@@ -69,9 +73,10 @@ print_r($_POST);
 				}
 			echo "</select>
 			</dl>
+			<input type=\"hidden\" name=\"trabajo\" value=\"" . abs($_POST['trabajo']) . "\">
 			<dl>
 				<dt><label for=\"enviar\"></label></dt>
-				<dd><input type=\"submit\" name=\"evaluar\" value=\" Corregir trabajo " . abs($fila['t_id']) . "\"></dd>
+				<dd><input type=\"submit\" name=\"evaluar\" value=\" Corregir trabajo " . abs($_POST['trabajo']) . "\"></dd>
 			</dl>";
 		}
 	?>

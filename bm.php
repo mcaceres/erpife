@@ -21,7 +21,7 @@ $cant = 1;
 </div>
 <div id="content">
 <div id="right">
-<h2>Modificación de datos de usuario</h2><br />
+<h2><?php echo $_SESSION['evento']; ?> - SiGePoV</h2><br />
 <?php
 extract($_POST);
 //print_r($_POST);

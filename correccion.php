@@ -13,7 +13,7 @@ include 'func_conn.php';
 </head>
 <body>
 <div id="header">
-<h1>Sistema de Gestión de Ponencias Virtual SiGePoV</h1>
+<h1><?php echo $_SESSION['evento']; ?> - SiGePoV</h1>
 <?php
 	insertar($_SESSION['perfil']);
 ?>
@@ -22,16 +22,20 @@ include 'func_conn.php';
 <div id="right">
 <h2>Alta de corrección</h2>
 <br />
-<pre>
 <?php
 extract($_POST);
-print_r($_POST);
+//print_r($_POST);
+//print_r($_SESSION);
 	conectar();
 	$query = "UPDATE trabajo SET t_estado = '" . $estado . "' WHERE t_id = '" . $numero . "'";
-	echo $query;
+	//echo $query . "<br />";
 	$insert = mysql_query($query);
+	$query = "INSERT INTO correcciones (c_t_id, c_u_id, c_comentario) VALUES ('" . $_POST['numero'] . "', '" . $_SESSION['u_id'] . "', '" . $_POST['correccion'] . "')";
+	//echo $query;
+	$insert = mysql_query($query);
+	echo mysql_error();
+	echo "Corrección realizada.";
 ?>
-</pre>
 </div>
 <div id="left">
 <?php

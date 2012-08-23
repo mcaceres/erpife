@@ -13,7 +13,7 @@ include 'func_conn.php';
 </head>
 <body>
 <div id="header">
-<h1>Sistema de Gestión de Ponencias Virtual SiGePoV</h1>
+<h1><?php echo $_SESSION['evento']; ?> - SiGePoV</h1>
 <?php
 	insertar($_SESSION['perfil']);
 ?>
@@ -29,38 +29,30 @@ extract($_POST);
 ?>
 
 <p>
-<form name="alta_usuario" method="POST" action="proc_alta_e.php" class="niceform">
+<form name="alta_usuario" method="POST" action="proc_mod_ev.php" class="niceform">
 <fieldset>
-	<legend>Datos del área</legend>
+	<?php
+		$datos = mysql_fetch_array(mysql_query("SELECT * FROM evento LIMIT 0,1"));
+	?>
+	<legend>Datos del evento</legend>
+	<input type="hidden" name="eve_id" value="<?php echo $datos['eve_id']; ?>">
 	<dl>
-		<dt><label for="descripcion">Descripción del área: </label></dt>
-		<dd><input type="text" name="desc_area"></dd>
+		<dt><label for="desc_evento">Descripción del evento: </label></dt>
+		<dd><input type="text" name="desc_evento" value="<?php echo $datos['eve_nombre']; ?>"></dd>
+	</dl>
+	<dl>
+		<dt><label for="anio">Año del evento: </label></dt>
+		<dd><input type="text" name="anio" value="<?php echo $datos['eve_anio']; ?>"></dd>
+	</dl>
+	<dl>
+		<dt><label for="email">Correo electrónico: </label></dt>
+		<dd><input type="text" name="email" value="<?php echo $datos['eve_email']; ?>"></dd>
 	</dl>
 	<dl>
 		<dd></dd>
 		<input type="submit" name="enviar" value="Enviar">
 		<input type="reset" name="limpiar" value="Limpiar">
 	</dl>
-</fieldset>
-</form>
-
-<form name="abm_areas" method="POST" action="mod_areas.php" class="niceform">
-<fieldset>
-	<?php
-		conectar();
-		$lista = mysql_query("SELECT a_id, a_descripcion FROM area_tematica ORDER BY a_descripcion");
-		echo "<table>
-		<tr><center><th>Id área</th><th>Descripción</th><th>Modificar</th></center></tr>";
-		while($fila = mysql_fetch_array($lista))
-		{
-			echo "<tr>
-			<td> " . $fila['a_id'] . "</td>
-			<td> " . $fila['a_descripcion'] . "</td>
-			<td> <input type=\"submit\" name=\"modificar\" value=\"" . $fila['a_id'] . "\"> </td>
-			</tr>";
-		}
-		echo "</table>";
-	?>
 </fieldset>
 </form>
 </div>

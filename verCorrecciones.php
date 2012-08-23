@@ -20,7 +20,7 @@ include 'func_conn.php';
 </div>
 <div id="content">
 <div id="right">
-<h2>Trabajos asignados</h2>
+<h2>Estado de trabajos presentados</h2>
 <?php
 extract($_POST);
 //print_r($_POST);
@@ -31,10 +31,10 @@ extract($_POST);
 <p>
 	<form name="corregir" method="POST" action="eval.php" class="niceform">
 	<fieldset>
-	<legend>Trabajos asignados</legend>
+	<legend>Trabajos presentados</legend>
 	<?php
 		conectar();
-		$lista = mysql_query("SELECT t_id, t_keywords, t_area_id, t_titulo, a_descripcion FROM asignaciones INNER JOIN (trabajo INNER JOIN area_tematica ON trabajo.t_area_id = area_tematica.a_id) ON trabajo.t_id = asignaciones.as_id_trabajo AND asignaciones.as_id_evaluador = '" . $_SESSION['u_id'] . "' AND trabajo.t_estado = '3'");
+		$lista = mysql_query("SELECT c_comentario, t_id, t_titulo, t_resumen, a_descripcion FROM correcciones INNER JOIN (usuario INNER JOIN (trabajo INNER JOIN area_tematica ON trabajo.t_area_id = area_tematica.a_id) ON usuario.u_id = t_ex_id) ON correcciones.c_t_id = trabajo.t_id WHERE trabajo.t_ex_id = '" . $_SESSION['u_id'] . "' ORDER BY c_id DESC LIMIT 0,1");
 		if(mysql_num_rows($lista) > 0)
 		{	
 			while($fila = mysql_fetch_array($lista))
@@ -49,27 +49,19 @@ extract($_POST);
 					<dd><b><i>" . $fila['t_titulo'] . "</i></b></dd>
 				</dl>
 				<dl>
-					<dt><label for=\"keyword\">Palabras clave: </label></dt>
-					<dd>" . $fila['t_keywords'] . "</dd>
-				</dl>
-				<dl>
 					<dt><label for=\"descripcion\">Área temática: </label></dt>
 					<dd>" . $fila['a_descripcion'] . "</dd>
 				</dl>
-					<dl>
-						<dt><label for=\"cantidad\">Cantidad de palabras: </label></dt>
-						<dd>" . str_word_count($fila['t_resumen']) . "</dd>
-					</dl>
-				<input type=\"hidden\" name=\"trabajo\" value=\"" . abs($fila['t_id']) . "\">
 				<dl>
-					<dt><label for=\"enviar\"></label></dt>
-					<dd><input type=\"submit\" name=\"evaluar\" value=\" Corregir trabajo " . abs($fila['t_id']) . "\"></dd>
-				</dl>";
+					<dt><label for=\"correccion\">Corrección: </label></dt>
+					<dd><em>" . $fila['c_comentario'] . "</em></dd>
+				</dl>
+	";
 			}
 		}
 		else
 		{
-			echo "<br />No quedan trabajos asignados pendientes de corregir...";
+			echo "<br />No tiene trabajos presentados...";
 		}		
 	?>
 	</fieldset>

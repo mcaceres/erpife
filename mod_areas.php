@@ -14,7 +14,7 @@ $cant = 1;
 </head>
 <body>
 <div id="header">
-<h1>Sistema de Gestión de Ponencias Virtual SiGePoV</h1>
+<h1><?php echo $_SESSION['evento']; ?> - SiGePoV</h1>
 <?php
 	insertar($_SESSION['perfil']);
 ?>
@@ -30,11 +30,11 @@ extract($_POST);
 	$datos = mysql_query("SELECT a_descripcion, a_id FROM area_tematica WHERE a_id = '" . $modificar . "'");
 	//print_r(mysql_fetch_array($datos));
 	$fila_u = mysql_fetch_array($datos);
-	print_r($fila_u);
+//	print_r($fila_u);
 	echo "</pre>";
 ?>
 <p>
-<form name="alta_usuario" method="POST" action="proc_mod_a.php" class="niceform">
+<form name="mod_areas" method="POST" action="proc_mod_a.php" class="niceform">
 <fieldset>
 	<legend>Datos del área</legend>
 	<dl>

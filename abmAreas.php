@@ -1,8 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//ES" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <?php
-session_start();
-include "ctrl_sesion.php";
-include "menu_perfil.php";
+include 'ctrl_sesion.php';
+include 'menu_perfil.php';
 include 'func_conn.php';
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="es" lang="es">
@@ -21,29 +20,51 @@ include 'func_conn.php';
 </div>
 <div id="content">
 <div id="right">
-<h2>Listado de trabajos</h2>
+<h2>Alta de áreas temáticas</h2><br />
+<?php
+extract($_POST);
+//print_r($_POST);
+	conectar();
+	
+?>
+
 <p>
-	<form name="lista" method="POST" action="bm.php" class="niceform">
+<form name="alta_usuario" method="POST" action="proc_alta_e.php" class="niceform">
+<fieldset>
+	<legend>Datos del área</legend>
+	<dl>
+		<dt><label for="descripcion">Descripción del área: </label></dt>
+		<dd><input type="text" name="desc_area"></dd>
+	</dl>
+	<dl>
+		<dd></dd>
+		<input type="submit" name="enviar" value="Enviar">
+		<input type="reset" name="limpiar" value="Limpiar">
+	</dl>
+</fieldset>
+</form>
+
+<form name="abm_areas" method="POST" action="mod_areas.php" class="niceform">
+<fieldset>
 	<?php
 		conectar();
-		$lista = mysql_query("SELECT t_id, u_nomyape, a_descripcion, t_titulo FROM trabajo, usuario, area_tematica WHERE trabajo.t_ex_id = usuario.u_id AND area_tematica.a_id = trabajo.t_area_id");
+		$lista = mysql_query("SELECT a_id, a_descripcion FROM area_tematica ORDER BY a_descripcion");
 		echo "<table>
-		<tr><center><th>ID Trabajo</th><th>Título</th><th>Área</th></center></tr>";
+		<tr><center><th>Id área</th><th>Descripción</th><th>Modificar</th></center></tr>";
 		while($fila = mysql_fetch_array($lista))
 		{
 			echo "<tr>
-			<td> " . $fila['t_id'] . "</td>
-			<td> " . $fila['t_titulo'] . "</td>
-			<td> " . $fila['a_descripcion'] ."</td>
-			<td> " . ucfirst($fila['descripcion']) . "</td>
+			<td> " . $fila['a_id'] . "</td>
+			<td> " . $fila['a_descripcion'] . "</td>
+			<td> <input type=\"submit\" name=\"modificar\" value=\"" . $fila['a_id'] . "\"> </td>
 			</tr>";
 		}
 		echo "</table>";
 	?>
-	</form>
-</p>
+</fieldset>
+</form>
 </div>
-	
+</div>
 <div id="left">
 <?php
 //print_r($_SESSION);
@@ -66,4 +87,3 @@ if(!isset($_SESSION['usuario']))
 </div>
 </body>
 </html>
-

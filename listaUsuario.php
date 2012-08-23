@@ -1,6 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//ES" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <?php
-session_start();
 include "ctrl_sesion.php";
 include "menu_perfil.php";
 include 'func_conn.php';
@@ -14,7 +13,7 @@ include 'func_conn.php';
 </head>
 <body>
 <div id="header">
-<h1>Sistema de Gestión de Ponencias Virtual SiGePoV</h1>
+<h1><?php echo $_SESSION['evento']; ?> - SiGePoV</h1>
 <?php
 	insertar($_SESSION['perfil']);
 ?>

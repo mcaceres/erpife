@@ -3,6 +3,7 @@
 include 'ctrl_sesion.php';
 include 'menu_perfil.php';
 include 'func_conn.php';
+$cant = 1;
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="es" lang="es">
 <head>
@@ -20,25 +21,31 @@ include 'func_conn.php';
 </div>
 <div id="content">
 <div id="right">
-<h2>Modificación de trabajos</h2>
-<p>
+<h2>Modificar datos de eventos</h2>
 <?php
 extract($_POST);
 //print_r($_POST);
-//print_r($_SESSION);
+$var = strtolower($desc_area);
+$desc_area = ucfirst($var);
+//echo $username;
 	conectar();
-	if(isset($enviar))
-	{
-		$res = mysql_query("UPDATE trabajo SET t_titulo = '" . $titulo . "', t_area_id = '" . $area . "', t_keywords = '" . $keywords . "', t_resumen = '" . $trabajo ."' WHERE t_id = '" . $t_id . "'");
-		if(!mysql_errno())
-		{
-			echo "Trabajo actualizado correctamente.";
-			echo '<meta http-equiv="Refresh" content="3;url=index.php">';
-		}
-		else
-		{
-			echo "Hubo un error " . mysql_errno() . mysql_error();
-		}
-	}
+	echo "<pre>";
+	//print_r($_SERVER);
+	echo "</pre>";
+
+if(isset($_POST['enviar']))
+{
+	conectar();
+	$query = "UPDATE evento SET eve_nombre = '" . $_POST['desc_evento'] . "', eve_anio = '" . $_POST['anio'] . "', eve_email = '" . $_POST['email'] . "' WHERE eve_id = '" . $_POST['eve_id'] . "'";
+	$guardar = mysql_query($query);
+	echo mysql_error();
+	echo "Se actualizaron los datos por los siguientes: <br /><br /> <b>Nombre del evento: </b>$desc_evento <br /><b>E-mail</b> $email <br /> <b>Año: </b> $anio";
+}
+else
+{
+	'Debe';
+}
 ?>
-</p>
+
+<p>
+

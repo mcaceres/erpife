@@ -13,14 +13,19 @@ include 'func_conn.php';
 </head>
 <body>
 <div id="header">
-<h1>Sistema de Gestión de Ponencias Virtual SiGePoV</h1>
+<h1><?php echo $_SESSION['evento']; ?> - SiGePoV</h1>
 <?php
 	insertar($_SESSION['perfil']);
 ?>
 </div>
 <div id="content">
 <div id="right">
-<h2>Trabajos cargados</h2>
+<h2></h2>
+<p>
+	<form name="corregir" method="POST" action="detalleTrabajo.php" class="niceform">
+	<fieldset>
+	<legend>Trabajos cargados</legend>
+
 <?php
 extract($_POST);
 //print_r($_POST);
@@ -28,8 +33,8 @@ extract($_POST);
 	
 	$query = "SELECT t_id, t_titulo, a_descripcion, e_descripcion FROM estado INNER JOIN (trabajo INNER JOIN area_tematica ON trabajo.t_area_id = area_tematica.a_id) ON estado.e_id = trabajo.t_estado ORDER BY estado.e_id";
 	$lista = mysql_query($query);
-	echo "<table>
-		<tr><center><th>Número</th><th>Título</th><th>Área temática</th><th>Estado</th></center></tr>";
+	echo "<br /><table>
+		<tr><center><th>Número</th><th>Título</th><th>Área temática</th><th>Estado</th><th>Detallado</th><th>Enviar</th></center></tr>";
 	while($fila = mysql_fetch_array($lista))
 	{
 		echo "<tr>
@@ -37,10 +42,22 @@ extract($_POST);
 		<td> " . $fila['t_titulo'] . "</td>
 		<td> " . $fila['a_descripcion'] . "</td>
 		<td> " . $fila['e_descripcion'] . "</td>
+		<td> <input type=\"submit\" name=\"trabajo\" value=\"" . abs($fila['t_id']) . "\"></td>
+		<td>";
+		
+		if($fila['e_descripcion'] == "Aprobado")
+		{
+			echo "<input type=\"submit\" name=\"mail\" value=\"" . abs($fila['t_id']) . "\">";
+		}
+		echo "</td>
 		</tr>";
 	}
 	echo "</table>";
 ?>
+	</fieldset>
+	</form>
+</p>
+
 </div>
 <div id="left">
 <?php

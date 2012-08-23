@@ -58,7 +58,7 @@ include "menu_perfil.php";
 			}
 			else
 			{
-				echo "<td> " . $fila['e_descripcion'] . "</td>";
+				echo "<td></td><td>" . $fila['e_descripcion'] . "</td>";
 			}
 			"</tr>";
 		}
