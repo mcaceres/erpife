@@ -26,7 +26,7 @@ extract($_POST);
 //print_r($_POST);
 	conectar();
 ?>
-<form name="asignar_trabajo" method="POST" action="proc_asignacion_t.php"> <!-- class="niceform" -->
+<form name="asignar_trabajo" method="POST" action="proc_asignacion_t.php" class="niceform"> <!-- class="niceform" -->
 <fieldset>
 	<legend>Asignación de trabajos a evaluadores</legend>
 	<dl>
@@ -59,7 +59,11 @@ extract($_POST);
 ?>	
 	</dd>
 	</dl>
-	<input type="submit" name="modificar" value="Asignar">
+	<dl>
+		<dd>
+			<input type="submit" name="modificar" value="Asignar">
+		</dd>
+	</dl>
 </fieldset>
 </form>
 </div>

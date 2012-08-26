@@ -47,7 +47,8 @@ extract($_POST);
 		{
 			if($password == $verif && $password != null)
 			{
-				$query = "UPDATE usuario SET u_username = '" . $username . "', 'u_dni = '" . mysql_real_escape_string($dni) . "', u_nomyape = '" . mysql_real_escape_string($nomyape) . "', u_password = '" . mysql_real_escape_string($password) . "', u_email = '" . mysql_real_escape_string($email) . "', u_filiacion = '" . mysql_real_escape_string($filiacion) . "', u_perfil = '" . $perfil . "' WHERE u_id = '" . mysql_real_escape_string($u_id) . "'";
+				$query = "UPDATE usuario SET u_dni = '" . mysql_real_escape_string($dni) . "', u_nomyape = '" . mysql_real_escape_string($nomyape) . "', u_password = '" . mysql_real_escape_string($password) . "', u_email = '" . mysql_real_escape_string($email) . "', u_filiacion = '" . mysql_real_escape_string($filiacion) . "' WHERE u_id = '" . mysql_real_escape_string($u_id) . "'"; //u_username = '" . $username . "', , u_perfil = '" . $perfil . "'
+				//echo $query;
 				$res = mysql_query($query);
 				if(!mysql_errno())
 				{

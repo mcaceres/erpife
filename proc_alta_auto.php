@@ -4,6 +4,13 @@ include 'menu_perfil.php';
 include 'func_conn.php';
 include 'Mail.php';
 require("class.phpmailer.php"); //Importamos la función PHP class.phpmailer
+
+	conectar();
+	$query = "SELECT eve_nombre FROM evento";
+	$datos = mysql_fetch_assoc(mysql_query($query));
+	$_SESSION['evento'] = $datos['eve_nombre'];
+
+
 $cant = 1;
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="es" lang="es">

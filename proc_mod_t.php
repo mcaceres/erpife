@@ -3,6 +3,8 @@
 include 'ctrl_sesion.php';
 include 'menu_perfil.php';
 include 'func_conn.php';
+require("class.phpmailer.php"); //Importamos la función PHP class.phpmailer
+
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="es" lang="es">
 <head>

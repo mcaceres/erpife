@@ -25,7 +25,6 @@ include 'func_conn.php';
 extract($_POST);
 //print_r($_POST);
 	conectar();
-	
 ?>
 
 <p>

@@ -1,7 +1,14 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//ES" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <?php
+//	session_start();
 	include 'menu_perfil.php';
 	include 'func_conn.php';
+	
+	conectar();
+	$query = "SELECT eve_nombre FROM evento";
+	$datos = mysql_fetch_assoc(mysql_query($query));
+	$_SESSION['evento'] = $datos['eve_nombre'];
+
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="es" lang="es">
 <head>

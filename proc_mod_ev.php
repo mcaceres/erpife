@@ -22,6 +22,9 @@ $cant = 1;
 <div id="content">
 <div id="right">
 <h2>Modificar datos de eventos</h2>
+
+<p>
+
 <?php
 extract($_POST);
 //print_r($_POST);
@@ -47,5 +50,28 @@ else
 }
 ?>
 
-<p>
 
+</div>
+</div>
+<div id="left">
+<?php
+//print_r($_SESSION);
+if(!isset($_SESSION['usuario']))
+{
+	insertar('login');
+}
+?>			
+	<div class="box">
+				<h2>Links :</h2>
+				<ul>
+				<li><a href="http://www.iaes.edu.ar">IAES Puerto Rico</a></li>
+				</ul>
+	</div>
+		
+    <div class="box">
+	   <div style="font-size: 0.8em;">Design by <a href="http://www.minimalistic-design.net">Minimalistic Design</a></div>
+	</div>
+</div>
+</div>
+</body>
+</html>

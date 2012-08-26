@@ -56,10 +56,10 @@ extract($_POST);
 					<dt><label for=\"descripcion\">Área temática: </label></dt>
 					<dd>" . $fila['a_descripcion'] . "</dd>
 				</dl>
-					<dl>
-						<dt><label for=\"cantidad\">Cantidad de palabras: </label></dt>
-						<dd>" . str_word_count($fila['t_resumen']) . "</dd>
-					</dl>
+				<dl>
+					<dt><label for=\"cantidad\">Cantidad de palabras: </label></dt>
+					<dd>" . str_word_count($fila['t_resumen']) . "</dd>
+				</dl>
 				<input type=\"hidden\" name=\"trabajo\" value=\"" . abs($fila['t_id']) . "\">
 				<dl>
 					<dt><label for=\"enviar\"></label></dt>
