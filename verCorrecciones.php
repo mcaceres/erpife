@@ -61,7 +61,7 @@ extract($_POST);
 		}
 		else
 		{
-			echo "<br />No tiene trabajos presentados...";
+			echo "<br />No tiene trabajos presentados corregidos...";
 		}		
 	?>
 	</fieldset>

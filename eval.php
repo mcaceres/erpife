@@ -34,9 +34,10 @@ extract($_POST);
 	<legend>Trabajo <?php echo abs($_POST['trabajo']); ?></legend>
 	<?php
 		conectar();
-		$lista = mysql_query("SELECT t_id, t_keywords, t_area_id, t_resumen, a_descripcion FROM asignaciones INNER JOIN (trabajo INNER JOIN area_tematica ON trabajo.t_area_id = area_tematica.a_id) ON trabajo.t_id = asignaciones.as_id_trabajo AND asignaciones.as_id_trabajo = '" . $_POST['trabajo'] . "'");
+		$lista = mysql_query("SELECT t_id, t_titulo, t_keywords, t_area_id, t_resumen, a_descripcion FROM asignaciones INNER JOIN (trabajo INNER JOIN area_tematica ON trabajo.t_area_id = area_tematica.a_id) ON trabajo.t_id = asignaciones.as_id_trabajo AND asignaciones.as_id_trabajo = '" . $_POST['trabajo'] . "'");
 		while($fila = mysql_fetch_array($lista))
 		{
+			$_SESSION['t_trabajo'] = $fila['t_titulo'];
 			echo "
 			<dl>
 				<dt><label for=\"numero\">Número de trabajo: </label></dt>

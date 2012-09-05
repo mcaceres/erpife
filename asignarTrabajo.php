@@ -26,7 +26,7 @@ extract($_POST);
 //print_r($_POST);
 	conectar();
 ?>
-<form name="asignar_trabajo" method="POST" action="proc_asignacion_t.php" class="niceform"> <!-- class="niceform" -->
+<form name="asignar_trabajo" method="POST" action="proc_asignacion_t.php"> <!-- class="niceform" -->
 <fieldset>
 	<legend>Asignación de trabajos a evaluadores</legend>
 	<dl>
@@ -38,7 +38,7 @@ extract($_POST);
 //	print_r($evaluadores);
 	while($fila = mysql_fetch_array($trabajos))
 	{
-		echo "<input type=\"checkbox\" name=\"trabajo" . $fila['t_id'] . "\" value=\"" . $fila['t_id'] . "\"> " . $fila['t_titulo'] . " <b>[" . abs($fila['t_area_id']) . "] </b><br />";
+		echo "<input type=\"radio\" name=\"trabajo\" value=\"" . $fila['t_id'] . "\"> " . $fila['t_titulo'] . " <b>[" . abs($fila['t_area_id']) . "] </b><br />";
 	}
 ?>	
 	</dd>
@@ -61,7 +61,7 @@ extract($_POST);
 	</dl>
 	<dl>
 		<dd>
-			<input type="submit" name="modificar" value="Asignar">
+			<input type="submit" name="asignar" value="Asignar">
 		</dd>
 	</dl>
 </fieldset>

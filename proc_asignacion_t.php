@@ -29,37 +29,39 @@ require("class.phpmailer.php"); //Importamos la función PHP class.phpmailer
 <?php
 extract($_POST);
 //print_r($_POST);
-
-echo "<br />\n";
+//echo "<br />\n";
 //print_r($_SESSION);
 	conectar();
-	foreach($_POST as $variable => $valor)
-	{
-		if($valor != 'Asignar' && $variable != 'evaluador')
+		if(isset($asignar))
 		{
-			$verif = mysql_fetch_array(mysql_query("
-				SELECT t_titulo, u_nomyape, t_ex_id, u_id FROM usuario
-				INNER JOIN trabajo ON trabajo.t_ex_id = usuario.u_id
-				INNER JOIN perfil ON perfil.perfil_id = usuario.u_perfil
-				WHERE trabajo.t_id = '" . $valor . "'"));
-			//print_r($verif);
-			extract($verif);
-			if($t_ex_id == $u_id)
+			$expositor = mysql_fetch_array(mysql_query("SELECT t_id, t_ex_id, u_nomyape FROM trabajo INNER JOIN usuario ON trabajo.t_ex_id = u_id AND trabajo.t_id = '" . $trabajo . "'"));
+			extract($expositor);
+			if($t_ex_id == $evaluador)
 			{
-				echo "El expositor y el evaluador son la misma persona. <br />\nNo se puede asignar el trabajo <b><i>" . $t_titulo . "</i></b> al evaluador <b><i>" . $u_nomyape . "</i></b>";
-				enviar_mail("enviado", "Muy feo...");
+				echo "<br />El expositor y el evaluador son la misma persona. <br />\nNo se puede asignar el trabajo <b><i>" . $t_titulo . "</i></b> al evaluador <b><i>" . $u_nomyape . "</i></b>";
 			}
 			else
 			{
-				$receptor = mysql_fetch_assoc(mysql_query("SELECT u_email FROM usuario INNER JOIN trabajo ON usuario.u_id = trabajo.t_ex_id WHERE trabajo.t_id = '" . $valor . "'"));
+				$receptor = mysql_fetch_assoc(mysql_query("SELECT u_email FROM usuario INNER JOIN trabajo ON usuario.u_id = trabajo.t_ex_id WHERE trabajo.t_id = '" . $trabajo . "'"));
 				extract($receptor);
-				
-				echo "Trabajo asignado correctamente";
-				//echo '<meta http-equiv="Refresh" content="3;url=index.php">';
+				enviar_mail("asignado_eva", "Se le ha asignado un trabajo...", $t_titulo, $u_email);
+				$query = "INSERT INTO asignaciones (as_id_trabajo, as_id_evaluador) VALUES ('" . $trabajo . "', '" . $evaluador . "')";
+				mysql_query($query);
+				$eva_nomyape = mysql_fetch_array(mysql_query("SELECT u_nomyape FROM usuario WHERE u_id = '" . $evaluador . "'"));
+				$_SESSION['eva_nomyape'] = $eva_nomyape['u_nomyape'];
+				$query2 = "UPDATE trabajo SET t_estado = '3', t_asignado = '1' WHERE trabajo.t_id = '" . $trabajo . "'";
+				$insert = mysql_query($query2);
+				if(!mysql_error())
+				{
+					echo "<br /><b>Trabajo asignado correctamente</b>";
+					//echo '<meta http-equiv="Refresh" content="5;url=index.php">';
+				}
+				else
+				{
+					echo "<br />Hubo un error <br />" . mysql_errno() . " " . mysql_error();
+				}
 			}
 		}
-	}
-	
 ?>
 <p>
 

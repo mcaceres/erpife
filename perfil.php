@@ -66,3 +66,27 @@ include 'func_conn.php';
 <p>
 
 
+</div>
+	
+<div id="left">
+<?php
+//print_r($_SESSION);
+if(!isset($_SESSION['usuario']))
+{
+	insertar('login');
+}
+?>			
+	<div class="box">
+				<h2>Links :</h2>
+				<ul>
+				<li><a href="http://www.iaes.edu.ar">IAES Puerto Rico</a></li>
+				</ul>
+	</div>
+		
+    <div class="box">
+	   <div style="font-size: 0.8em;">Design by <a href="http://www.minimalistic-design.net">Minimalistic Design</a></div>
+	</div>
+</div>
+</div>
+</body>
+</html>

@@ -1,68 +1,69 @@
 <?php
-function enviar_mail($tipo, $motivo)
+/*
+echo "<pre>";
+print_r($GLOBALS);
+echo "</pre>";
+*/
+
+function enviar_mail($tipo, $motivo, $titulo, $destinatario)
 {
-	echo $tipo;
+	$cant_trab = mysql_fetch_array(mysql_query("SELECT COUNT(t_asignado) FROM trabajo WHERE trabajo.t_asignado = '0'"));
+	$textos = array();
+	$textos['enviado_exp'] = $_SESSION['evento'] . " \n\nEstimado expositor " . $_SESSION['nomyape'] . ", su trabajo ha sido subido correctamente a la plataforma del " . $_SESSION['evento'] . "";
+	$textos['enviado_eve'] = "Estimado administrador del " . $_SESSION['evento'] . ", se ha subido un nuevo trabajo a la plataforma web. Tiene " . $cant_trab['0'] . " trabajo/s sin asignar.";
+	$textos['asignado_eva'] = $_SESSION['evento'] . "\n" . date('d-m-Y') . "\n\nEstimado evaluador " . $_SESSION['eva_nomyape'] . ", por el presente se le notifica que usted tiene trabajo/s para leer y considerar.\n Lo saluda atentamente. \nComité Organizador";
+	$textos['evaluado'] = $_SESSION['evento'] . "\n" . date('d-m-Y') . "\n\nEstimado expositor " . $_SESSION['nomyape'] . ", por el presente se le notifica que su trabajo " . $_SESSION['t_titulo'] . " ha sido evaluado por el comité y ha resultado " . $_SESSION['t_estado'] . ".\n Lo saluda atentamente. \nComité Académico";
+
 	switch ($tipo)
 	{
-		case "enviado":
+		case "enviado_exp":
 		{
-			echo "Su trabajo ha sido enviado...";
-			datos_email("enviado", $motivo);
+			echo "<b> Motivo:</b> " . $motivo . "<br /><b> Título:</b> " . $titulo . "<br /><b> Destinatario:</b> " . $destinatario . "<br />";
+			datos_email("enviado", $motivo, $titulo, $destinatario, $textos['enviado_exp']);
+			echo "<br />Su trabajo ha sido enviado... <br />";
 		};
 		break;
-/*		case "asignado":
-			{
-				;
-			};
-			break;
-		case "evaluacion":
-			{
-				;
-			};
-			break;
-		case "revision":
-			{
-				;
-			};
-			break;
-		case "rechazado":
-			{
-				;
-			};
-			break;
-		case "aprobado":
-			{
-				;
-			};
-			break;
-*/		default: { ; }; break;
+		case "enviado_eve":
+		{
+			datos_email("enviado", $motivo, $titulo, $destinatario, $textos['enviado_eve']);
+		};
+		break;
+		case "asignado_eva":
+		{
+			datos_email("asignado_eva", $motivo, $titulo, $destinatario, $textos['asignado_eva']);
+		};
+		break;
+		case "evaluado":
+		{
+			datos_email("asignado_eva", $motivo, $titulo, $destinatario, $textos['evaluado']);
+		};
+		break;
+
+		default: { ; }; break;
 	}
 }
-function datos_email($status, $justificativo)
+
+function datos_email($status, $justificativo, $titulo, $destinatario, $texto)
 {
+//	echo "<br />" . $status . "<br />" . $justificativo . "<br />" . $titulo . "<br />" . $destinatario . "<br />";
 	$mail = new PHPMailer(); 
 	$mail->IsSMTP(); 
-	$mail->SMTPAuth = true; // True para que verifique autentificaciÃ³n de la cuenta o de lo contrario False 
+	$mail->SMTPAuth = true; // True para que verifique autentificación de la cuenta o de lo contrario False 
 	$mail->Username = "registro@erpife.com.ar"; // Tu cuenta de e-mail 
 	$mail->Password = "nico1141"; // El Password de tu casilla de correos
 
+
+
 	$mail->Host = "localhost";
-				
-	$query = "SELECT eve_email, eve_nombre, eve_anio FROM evento";
-	$datos = mysql_fetch_assoc(mysql_query($query));
-	$mail->From = $datos['eve_email']; 
+//	echo "PPP: " . $_SESSION['eve_email'] . "<br />";
+	$mail->From = $_SESSION['eve_email']; //verificar el mail
 	$mail->FromName = "Administrador"; 
-	$mail->Sender = $datos['eve_email']; 
-	$mail->Subject = "ModificaciÃ³n de estado de trabajo..."; 
-	$mail->AddAddress($receptor['u_email'], $datos['eve_email']); 
+	$mail->Subject = "Modificación de estado de trabajo: " . $titulo; 
+	$mail->AddAddress($destinatario, $_SESSION['nomyape']); //verificar nuevamente mail
 
-	$mail->WordWrap = 50; 
+	$mail->WordWrap = 100; 
+	$body = $texto; 
 
-	$body = "Su trabajo a sido " . $status . ". SerÃ¡ notificado cuando sufra otro cambio de estado (Rechazado, Aprobado, Para revisiÃ³n)."; 
-	if(isset($motivo))
-	{
-		$body .= "Motivo: ";
-	}
 	$mail->Body = $body; 
 
 	//$mail->Send(); 
@@ -74,12 +75,14 @@ function datos_email($status, $justificativo)
 	}
 	else
 	{
-		echo nl2br($body) . "<br/ >"; 
+		echo  "<br/ >"; 
+	}
+echo "<br/ ><b>Cuerpo:</b>" . $body . "<br />";
+	if(isset($motivo))
+	{
+		$body .= "<br />Motivo: " . $justificativo;
 	}
 }
-
-
-
 /*
 $str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
 $cad = "";

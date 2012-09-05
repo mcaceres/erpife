@@ -3,6 +3,9 @@
 include 'ctrl_sesion.php';
 include 'menu_perfil.php';
 include 'func_conn.php';
+include 'mail.php';
+require("class.phpmailer.php");
+
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="es" lang="es">
 <head>
@@ -24,7 +27,6 @@ include 'func_conn.php';
 <h2>Alta de trabajos</h2>
 <?php
 extract($_POST);
-//print_r($_POST);
 echo "<br/>";
 //print_r($_SESSION);
 	conectar();
@@ -38,9 +40,12 @@ echo "<br/>";
 		}
 		else
 		{
-			echo "Trabajo dado de alta correctamente...";
+			echo "Trabajo dado de alta correctamente...<br />";
+			$receptor = mysql_fetch_assoc(mysql_query("SELECT u_email FROM usuario WHERE u_id = '" . $_SESSION['u_id'] . "'"));
+			extract($receptor);
+			enviar_mail("enviado_exp", "Ha enviado un trabajo...", $titulo, $u_email);
+			enviar_mail("enviado_eve", "Nuevo trabajo cargado...", $titulo, $_SESSION['eve_email']);
 		}
-		//					INSERT INTO trabajo (t_ex_id, t_titulo, t_area_id, t_keywords, t_resumen) VALUES ('9', 'Titulo de prueba', '1', 'prueba, trabajo', 'Resumen del trabajo...')
 	}
 	else
 	{
@@ -52,3 +57,28 @@ echo "<br/>";
 <p>
 
 
+
+</p>
+</div>
+<div id="left">
+<?php
+//print_r($_SESSION);
+if(!isset($_SESSION['usuario']))
+{
+	insertar('login');
+}
+?>			
+	<div class="box">
+				<h2>Links :</h2>
+				<ul>
+				<li><a href="http://www.iaes.edu.ar">IAES Puerto Rico</a></li>
+				</ul>
+	</div>
+		
+    <div class="box">
+	   <div style="font-size: 0.8em;">Design by <a href="http://www.minimalistic-design.net">Minimalistic Design</a></div>
+	</div>
+</div>
+</div>
+</body>
+</html>
